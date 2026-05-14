@@ -1,0 +1,99 @@
+---
+// Animated logo component
+// Version 3: Bouncing dot with squash & stretch on landing
+// The dot bounces, head/body squash subtly in reaction
+---
+
+<a href="/" class="logo-link" aria-label="Bella Shih — home">
+  <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+    <path class="logo-right" fill="#79bec9" d="M392.01,277.44c-19.86-19.85-45.38-31.9-72.86-34.62-5.57-.55-10.29,4.13-10.29,9.73v219.44c0,5.59,4.72,10.28,10.29,9.73,27.47-2.72,52.99-14.77,72.86-34.62,22.69-22.56,35.2-52.69,35.2-84.82s-12.51-62.26-35.2-84.82Z"/>
+    <path class="logo-body" fill="#79bec9" d="M242.89,263.55c-19.6,0-37.5-7.38-51.09-19.49-3.15-2.81-8.08-.68-8.08,3.55v114.74c0,61.88,47.07,112.98,107.29,119.36,5.86.62,11.06-3.8,11.06-9.69v-224.41c0-4.22-4.93-6.36-8.08-3.55-13.59,12.12-31.5,19.5-51.1,19.5Z"/>
+    <path class="logo-head" fill="#ffcb39" d="M242.89,116.59c-38.65,0-70.1,31.45-70.1,70.11s31.45,70.11,70.1,70.11,70.11-31.45,70.11-70.11-31.45-70.11-70.11-70.11Z"/>
+    <circle class="logo-dot" fill="#ffcb39" cx="417.27" cy="473.47" r="9.94"/>
+  </svg>
+</a>
+
+<style>
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 0;
+  }
+
+  .logo-svg {
+    width: 48px;
+    height: 48px;
+    display: block;
+    overflow: visible;
+    transition: transform 0.3s ease;
+  }
+
+  .logo-link:hover .logo-svg {
+    transform: scale(1.05);
+  }
+
+  /* Version 3 — Snappy bounce with squash & stretch */
+  .logo-dot {
+    transform-origin: 417.27px 473.47px;
+    animation: dot-bounce 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .logo-head {
+    transform-origin: 242.89px 256.8px;
+    animation: head-react 1.4s ease-out infinite;
+  }
+
+  .logo-body {
+    transform-origin: 248px 487.5px;
+    animation: body-react 1.4s ease-out infinite;
+  }
+
+  .logo-right {
+    transform-origin: 419px 480.6px;
+    animation: right-react 1.4s ease-out infinite;
+  }
+
+  @keyframes dot-bounce {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    8% {
+      /* anticipation — squash before launch */
+      transform: translateY(3px) scaleX(1.35) scaleY(0.65);
+    }
+    45% {
+      /* peak — stretched in flight */
+      transform: translateY(-90px) scaleX(0.88) scaleY(1.15);
+    }
+    78% {
+      /* landing impact — squash */
+      transform: translateY(3px) scaleX(1.35) scaleY(0.65);
+    }
+    92% {
+      /* rebound */
+      transform: translateY(-4px) scale(1);
+    }
+  }
+
+  @keyframes head-react {
+    0%, 100% { transform: scaleY(1) scaleX(1); }
+    8% { transform: scaleY(0.96) scaleX(1.02); }
+    50% { transform: scaleY(1.02) scaleX(0.99); }
+    78% { transform: scaleY(0.96) scaleX(1.02); }
+  }
+
+  @keyframes body-react {
+    0%, 100% { transform: scaleY(1); }
+    8% { transform: scaleY(0.97); }
+    50% { transform: scaleY(1.015); }
+    78% { transform: scaleY(0.97); }
+  }
+
+  @keyframes right-react {
+    0%, 100% { transform: scaleX(1); }
+    8% { transform: scaleX(1.02); }
+    50% { transform: scaleX(0.985); }
+    78% { transform: scaleX(1.02); }
+  }
+</style>

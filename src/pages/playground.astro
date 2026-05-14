@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectTile from '../components/ProjectTile.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('playground', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Get unique mediums for filter pills (visual only — not functional yet)
+const mediums = [...new Set(projects.map(p => p.data.medium))].sort();
+---
+
+<BaseLayout title="Playground — Bella Shih" description="Experiments, illustrations, sketches, and things I'm learning.">
+  <section class="page-hero container">
+    <p class="page-eyebrow">Experiments & curiosity ✦</p>
+    <h1 class="page-title">Playground</h1>
+    <p class="page-sub">
+      The lab where I learn, explore, and play — illustrations, Rive experiments,
+      sketches, and whatever tool I'm currently obsessed with.
+    </p>
+
+    {mediums.length > 1 && (
+      <div class="medium-filters">
+        <span class="filter-label">Browse:</span>
+        {mediums.map(medium => (
+          <span class="tag">{medium}</span>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="container project-section">
+    {projects.length === 0 ? (
+      <p class="empty-state">No projects yet. Add Markdown files to <code>src/content/playground/</code> to populate this page.</p>
+    ) : (
+      <div class="project-grid">
+        {projects.map(project => (
+          <ProjectTile
+            href={`/projects/${project.id}`}
+            title={project.data.title}
+            client={project.data.client}
+            year={project.data.year?.toString()}
+            tags={[project.data.medium, ...project.data.tags]}
+            thumbnail={project.data.thumbnail}
+            hoverVideo={project.data.hoverVideo}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding: var(--space-xl) var(--space-md) var(--space-lg); }
+  .page-eyebrow {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-pop);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: -0.035em;
+    color: var(--color-ink);
+    margin-bottom: var(--space-md);
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  }
+  .page-sub {
+    font-size: 1.15rem;
+    color: var(--color-ink-soft);
+    max-width: 600px;
+    margin-bottom: var(--space-md);
+  }
+
+  .medium-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: var(--space-md);
+  }
+  .filter-label {
+    font-size: 0.8rem;
+    color: var(--color-ink-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .project-section { padding: var(--space-lg) var(--space-md) var(--space-xl); }
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+  }
+  @media (min-width: 1100px) {
+    .project-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .empty-state {
+    padding: var(--space-xl);
+    text-align: center;
+    color: var(--color-ink-muted);
+    border: 1px dashed var(--border-color-strong);
+    border-radius: 12px;
+  }
+  .empty-state code {
+    background: var(--color-accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: ui-monospace, monospace;
+    font-size: 0.9em;
+  }
+</style>

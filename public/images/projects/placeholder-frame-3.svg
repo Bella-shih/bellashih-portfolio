@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice">
+  <rect width="600" height="450" fill="#FF6B2B"/>
+  <path d="M 0,300 Q 150,200 300,260 T 600,240 L 600,450 L 0,450 Z" fill="#184027"/>
+  <circle cx="450" cy="120" r="60" fill="#B8BC59"/>
+  <circle cx="150" cy="150" r="25" fill="#FAF7E8"/>
+  <text x="30" y="430" font-family="Georgia, serif" font-style="italic" fill="#FAF7E8" font-size="16" opacity="0.6">styleframe placeholder</text>
+</svg>

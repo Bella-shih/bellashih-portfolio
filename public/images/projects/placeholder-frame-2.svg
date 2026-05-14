@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice">
+  <rect width="600" height="450" fill="#184027"/>
+  <circle cx="300" cy="225" r="140" fill="#FF6B2B"/>
+  <circle cx="300" cy="225" r="90" fill="#FAF7E8"/>
+  <circle cx="300" cy="225" r="40" fill="#B8BC59"/>
+  <text x="30" y="420" font-family="Georgia, serif" font-style="italic" fill="#FAF7E8" font-size="16" opacity="0.6">styleframe placeholder</text>
+</svg>
