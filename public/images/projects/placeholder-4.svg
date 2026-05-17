@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <rect width="800" height="500" fill="#FAF7E8"/>
+  <rect x="0" y="0" width="400" height="500" fill="#184027"/>
+  <circle cx="400" cy="250" r="180" fill="#FF6B2B"/>
+  <circle cx="400" cy="250" r="90" fill="#B8BC59"/>
+  <circle cx="400" cy="250" r="30" fill="#FAF7E8"/>
+  <text x="50" y="470" font-family="Georgia, serif" font-style="italic" fill="#184027" font-size="22" opacity="0.7">Placeholder · replace at /public/images/projects/</text>
+</svg>
