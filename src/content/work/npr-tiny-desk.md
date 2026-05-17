@@ -12,6 +12,7 @@ thumbnail: "/images/projects/placeholder-1.svg"
 vimeoId: "76979871"  # Replace with the real Vimeo ID (just the number)
 
 # Sorting & visibility
+size: "feature"
 order: 1
 featured: true
 draft: false

@@ -8,6 +8,14 @@ import { glob } from 'astro/loaders';
    Astro checks it against this schema.
    ============================================ */
 
+// Tile sizes for the mosaic grid:
+//   small   — 1 col × 1 row (compact)
+//   medium  — 1 col × 2 rows (default)
+//   tall    — 1 col × 3 rows
+//   wide    — 2 cols × 2 rows
+//   feature — 2 cols × 3 rows (the big hero)
+const tileSize = z.enum(['small', 'medium', 'tall', 'wide', 'feature']).default('medium');
+
 // Schema shared by all project types
 const projectSchema = z.object({
   title: z.string(),
@@ -17,21 +25,22 @@ const projectSchema = z.object({
   tags: z.array(z.string()).default([]),
 
   // Media
-  thumbnail: z.string(), // path to image, e.g. "/images/projects/npr/thumb.jpg"
-  hoverVideo: z.string().optional(), // short looping .mp4 shown on tile hover
-  vimeoId: z.string().optional(), // main video — just the numeric ID from Vimeo
-  poster: z.string().optional(), // hero image at top of project page (if no video)
+  thumbnail: z.string(),
+  hoverVideo: z.string().optional(),
+  vimeoId: z.string().optional(),
+  poster: z.string().optional(),
 
   // Sorting & visibility
-  order: z.number().default(100), // lower numbers appear first
+  size: tileSize,
+  order: z.number().default(100),
   featured: z.boolean().default(false),
-  draft: z.boolean().default(false), // set to true to hide a project
+  draft: z.boolean().default(false),
 
   // Content
-  description: z.string().optional(), // short tagline shown on tile/header
-  objective: z.string().optional(), // project objective paragraph
+  description: z.string().optional(),
+  objective: z.string().optional(),
 
-  // Credits — array of role/name pairs
+  // Credits
   credits: z.array(z.object({
     role: z.string(),
     name: z.string(),

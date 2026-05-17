@@ -1,6 +1,6 @@
 ---
-// Project tile — used in grids on Work, Personal, Playground pages
-// Shows a thumbnail and (optionally) a hover-triggered video preview loop
+// Project tile — used in mosaic grids on Work, Personal, Playground pages
+// Supports size variants: small, medium, tall, wide, feature
 
 interface Props {
   href: string;
@@ -9,13 +9,23 @@ interface Props {
   year?: string | number;
   tags?: string[];
   thumbnail: string;
-  hoverVideo?: string; // optional .mp4 / .webm for hover loop
+  hoverVideo?: string;
+  size?: 'small' | 'medium' | 'tall' | 'wide' | 'feature';
 }
 
-const { href, title, client, year, tags = [], thumbnail, hoverVideo } = Astro.props;
+const {
+  href,
+  title,
+  client,
+  year,
+  tags = [],
+  thumbnail,
+  hoverVideo,
+  size = 'medium',
+} = Astro.props;
 ---
 
-<a href={href} class="project-tile">
+<a href={href} class:list={['project-tile', `tile-${size}`]}>
   <div class="tile-media">
     <img
       src={thumbnail}
@@ -46,7 +56,7 @@ const { href, title, client, year, tags = [], thumbnail, hoverVideo } = Astro.pr
     )}
     {tags.length > 0 && (
       <div class="tile-tags">
-        {tags.map(tag => <span class="tag tag-outline">{tag}</span>)}
+        {tags.slice(0, 3).map(tag => <span class="tag tag-outline">{tag}</span>)}
       </div>
     )}
   </div>
@@ -61,9 +71,34 @@ const { href, title, client, year, tags = [], thumbnail, hoverVideo } = Astro.pr
     color: inherit;
   }
 
+  /* GRID SIZE CLASSES — these get applied to each tile */
+  .tile-small {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  .tile-medium {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+  .tile-tall {
+    grid-column: span 1;
+    grid-row: span 3;
+  }
+  .tile-wide {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .tile-feature {
+    grid-column: span 2;
+    grid-row: span 3;
+  }
+
+  /* MEDIA — takes up most of the tile, leaves room for meta below */
   .tile-media {
     position: relative;
-    aspect-ratio: 16 / 10;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
     overflow: hidden;
     border-radius: 12px;
     background: var(--color-accent);
@@ -92,14 +127,16 @@ const { href, title, client, year, tags = [], thumbnail, hoverVideo } = Astro.pr
     opacity: 1;
   }
 
+  /* META */
   .tile-meta {
     padding: 0 0.25rem;
+    flex-shrink: 0;
   }
 
   .tile-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     line-height: 1.15;
     letter-spacing: -0.02em;
     color: var(--color-ink);
@@ -107,27 +144,57 @@ const { href, title, client, year, tags = [], thumbnail, hoverVideo } = Astro.pr
     transition: color 0.2s ease;
   }
 
+  /* Larger title for featured/wide tiles */
+  .tile-feature .tile-title,
+  .tile-wide .tile-title {
+    font-size: 1.75rem;
+  }
+  .tile-small .tile-title {
+    font-size: 1.05rem;
+  }
+
   .project-tile:hover .tile-title {
     color: var(--color-pop);
   }
 
   .tile-sub {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--color-ink-muted);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
   .tile-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.25rem;
+    gap: 0.3rem;
+    margin-top: 0.2rem;
+  }
+
+  /* MOBILE — collapse mosaic to single column with consistent aspect ratios */
+  @media (max-width: 700px) {
+    .tile-small,
+    .tile-medium,
+    .tile-tall,
+    .tile-wide,
+    .tile-feature {
+      grid-column: span 1;
+      grid-row: auto;
+    }
+    .tile-media {
+      aspect-ratio: 16 / 10;
+      flex: none;
+    }
+    .tile-feature .tile-media,
+    .tile-wide .tile-media {
+      aspect-ratio: 16 / 9;
+    }
+    .tile-tall .tile-media {
+      aspect-ratio: 4 / 5;
+    }
   }
 </style>
 
 <script>
-  // Play hover video on mouseenter, pause on mouseleave
-  // (separate from CSS opacity so the video resets each time)
   const tiles = document.querySelectorAll('.project-tile');
   tiles.forEach(tile => {
     const video = tile.querySelector('.tile-hover-video') as HTMLVideoElement | null;
@@ -135,7 +202,7 @@ const { href, title, client, year, tags = [], thumbnail, hoverVideo } = Astro.pr
 
     tile.addEventListener('mouseenter', () => {
       video.currentTime = 0;
-      video.play().catch(() => {/* autoplay may be blocked, ignore */});
+      video.play().catch(() => {});
     });
 
     tile.addEventListener('mouseleave', () => {

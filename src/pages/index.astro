@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectTile from '../components/ProjectTile.astro';
 import { getCollection } from 'astro:content';
 
-// Get featured projects from work and personal
 const workProjects = (await getCollection('work', ({ data }) => !data.draft && data.featured))
   .sort((a, b) => a.data.order - b.data.order);
 
@@ -33,7 +32,6 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
       </div>
     </div>
 
-    <!-- Decorative floating shapes -->
     <div class="hero-decor" aria-hidden="true">
       <div class="decor-shape decor-circle"></div>
       <div class="decor-shape decor-blob"></div>
@@ -49,7 +47,7 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
         <a href="/work" class="section-link">All projects →</a>
       </header>
 
-      <div class="project-grid">
+      <div class="mosaic-grid">
         {featured.map(project => (
           <ProjectTile
             href={`/projects/${project.id}`}
@@ -59,6 +57,7 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
             tags={project.data.tags}
             thumbnail={project.data.thumbnail}
             hoverVideo={project.data.hoverVideo}
+            size={project.data.size}
           />
         ))}
       </div>
@@ -269,15 +268,20 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     color: var(--color-pop);
   }
 
-  .project-grid {
+  /* MOSAIC GRID for homepage Selected Work */
+  .mosaic-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 140px;
+    gap: var(--space-md);
+    grid-auto-flow: dense;
   }
 
-  @media (min-width: 1100px) {
-    .project-grid {
-      grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 700px) {
+    .mosaic-grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+      gap: var(--space-lg);
     }
   }
 </style>

@@ -20,7 +20,7 @@ const projects = (await getCollection('work', ({ data }) => !data.draft))
     {projects.length === 0 ? (
       <p class="empty-state">No projects yet. Add Markdown files to <code>src/content/work/</code> to populate this page.</p>
     ) : (
-      <div class="project-grid">
+      <div class="mosaic-grid">
         {projects.map(project => (
           <ProjectTile
             href={`/projects/${project.id}`}
@@ -30,6 +30,7 @@ const projects = (await getCollection('work', ({ data }) => !data.draft))
             tags={project.data.tags}
             thumbnail={project.data.thumbnail}
             hoverVideo={project.data.hoverVideo}
+            size={project.data.size}
           />
         ))}
       </div>
@@ -38,9 +39,7 @@ const projects = (await getCollection('work', ({ data }) => !data.draft))
 </BaseLayout>
 
 <style>
-  .page-hero {
-    padding: var(--space-xl) var(--space-md) var(--space-lg);
-  }
+  .page-hero { padding: var(--space-xl) var(--space-md) var(--space-lg); }
   .page-eyebrow {
     font-size: 0.85rem;
     font-weight: 500;
@@ -63,17 +62,25 @@ const projects = (await getCollection('work', ({ data }) => !data.draft))
     color: var(--color-ink-soft);
     max-width: 600px;
   }
-  .project-section {
-    padding: var(--space-lg) var(--space-md) var(--space-xl);
-  }
-  .project-grid {
+  .project-section { padding: var(--space-lg) var(--space-md) var(--space-xl); }
+
+  /* MOSAIC GRID — 2 columns, dense packing for no gaps */
+  .mosaic-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 140px;
+    gap: var(--space-md);
+    grid-auto-flow: dense;
   }
-  @media (min-width: 1100px) {
-    .project-grid { grid-template-columns: repeat(3, 1fr); }
+
+  @media (max-width: 700px) {
+    .mosaic-grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+      gap: var(--space-lg);
+    }
   }
+
   .empty-state {
     padding: var(--space-xl);
     text-align: center;

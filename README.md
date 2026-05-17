@@ -83,6 +83,7 @@ thumbnail: "/images/projects/my-project-thumb.jpg"
 hoverVideo: "/images/projects/my-project-hover.mp4"   # Optional — short loop for hover
 vimeoId: "123456789"            # Just the number from vimeo.com/123456789
 
+size: "medium"                   # Tile size — see options below
 order: 5                         # Lower = appears first in the grid
 featured: true                   # Set true to show on the homepage
 draft: false                     # Set true to hide the project temporarily
@@ -132,6 +133,16 @@ To embed another Vimeo video in the middle of the case study:
 ---
 
 ## 🎛️ Common tweaks
+
+### Resize a tile in the grid
+Open the project's `.md` file. Change the `size:` line. Options:
+- `size: "small"` — 1 column × 1 row (compact)
+- `size: "medium"` — 1 column × 2 rows (default)
+- `size: "tall"` — 1 column × 3 rows (vertical hero)
+- `size: "wide"` — 2 columns × 2 rows (horizontal feature)
+- `size: "feature"` — 2 columns × 3 rows (the big hero tile)
+
+The grid auto-arranges itself for a clean mosaic. Pages collapse to single column on mobile.
 
 ### Hide a project (without deleting)
 Open the project's `.md` file. Change `draft: false` to `draft: true`. Commit. Project disappears.
