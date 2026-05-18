@@ -1,6 +1,6 @@
 ---
-// Project tile — used in mosaic grids on Work, Personal, Playground pages
-// Supports size variants: small, medium, tall, wide, feature
+// Project tile — landscape/square aspect-ratio system
+// Three sizes: feature (full-width 16:9), landscape (1col 16:9), square (1col 1:1)
 
 interface Props {
   href: string;
@@ -10,7 +10,7 @@ interface Props {
   tags?: string[];
   thumbnail: string;
   hoverVideo?: string;
-  size?: 'small' | 'medium' | 'tall' | 'wide' | 'feature';
+  size?: 'feature' | 'landscape' | 'square';
 }
 
 const {
@@ -21,7 +21,7 @@ const {
   tags = [],
   thumbnail,
   hoverVideo,
-  size = 'medium',
+  size = 'landscape',
 } = Astro.props;
 ---
 
@@ -71,37 +71,32 @@ const {
     color: inherit;
   }
 
-  /* GRID SIZE CLASSES — these get applied to each tile */
-  .tile-small {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-  .tile-medium {
-    grid-column: span 1;
-    grid-row: span 2;
-  }
-  .tile-tall {
-    grid-column: span 1;
-    grid-row: span 3;
-  }
-  .tile-wide {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
+  /* GRID PLACEMENT — feature spans 2 columns, others span 1 */
   .tile-feature {
     grid-column: span 2;
-    grid-row: span 3;
+  }
+  .tile-landscape,
+  .tile-square {
+    grid-column: span 1;
   }
 
-  /* MEDIA — takes up most of the tile, leaves room for meta below */
+  /* MEDIA — aspect ratio locked per size */
   .tile-media {
     position: relative;
     width: 100%;
-    flex: 1;
-    min-height: 0;
     overflow: hidden;
     border-radius: 12px;
     background: var(--color-accent);
+  }
+
+  .tile-feature .tile-media {
+    aspect-ratio: 16 / 9;
+  }
+  .tile-landscape .tile-media {
+    aspect-ratio: 16 / 9;
+  }
+  .tile-square .tile-media {
+    aspect-ratio: 1 / 1;
   }
 
   .tile-thumb,
@@ -130,13 +125,12 @@ const {
   /* META */
   .tile-meta {
     padding: 0 0.25rem;
-    flex-shrink: 0;
   }
 
   .tile-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     line-height: 1.15;
     letter-spacing: -0.02em;
     color: var(--color-ink);
@@ -144,13 +138,8 @@ const {
     transition: color 0.2s ease;
   }
 
-  /* Larger title for featured/wide tiles */
-  .tile-feature .tile-title,
-  .tile-wide .tile-title {
-    font-size: 1.75rem;
-  }
-  .tile-small .tile-title {
-    font-size: 1.05rem;
+  .tile-feature .tile-title {
+    font-size: 2rem;
   }
 
   .project-tile:hover .tile-title {
@@ -158,7 +147,7 @@ const {
   }
 
   .tile-sub {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--color-ink-muted);
     margin-bottom: 0.4rem;
   }
@@ -170,26 +159,12 @@ const {
     margin-top: 0.2rem;
   }
 
-  /* MOBILE — collapse mosaic to single column with consistent aspect ratios */
+  /* MOBILE — collapse all tiles to single column, landscape default */
   @media (max-width: 700px) {
-    .tile-small,
-    .tile-medium,
-    .tile-tall,
-    .tile-wide,
-    .tile-feature {
+    .tile-feature,
+    .tile-landscape,
+    .tile-square {
       grid-column: span 1;
-      grid-row: auto;
-    }
-    .tile-media {
-      aspect-ratio: 16 / 10;
-      flex: none;
-    }
-    .tile-feature .tile-media,
-    .tile-wide .tile-media {
-      aspect-ratio: 16 / 9;
-    }
-    .tile-tall .tile-media {
-      aspect-ratio: 4 / 5;
     }
   }
 </style>

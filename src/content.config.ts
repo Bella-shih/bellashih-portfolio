@@ -8,15 +8,12 @@ import { glob } from 'astro/loaders';
    Astro checks it against this schema.
    ============================================ */
 
-// Tile sizes for the mosaic grid:
-//   small   — 1 col × 1 row (compact)
-//   medium  — 1 col × 2 rows (default)
-//   tall    — 1 col × 3 rows
-//   wide    — 2 cols × 2 rows
-//   feature — 2 cols × 3 rows (the big hero)
-const tileSize = z.enum(['small', 'medium', 'tall', 'wide', 'feature']).default('medium');
+// Tile sizes — all landscape or square, no portrait shapes:
+//   feature   — full-width 16:9 hero (only used at top of Work/Selected)
+//   landscape — 1 column wide, 16:9 ratio
+//   square    — 1 column wide, 1:1 ratio
+const tileSize = z.enum(['feature', 'landscape', 'square']).default('landscape');
 
-// Schema shared by all project types
 const projectSchema = z.object({
   title: z.string(),
   client: z.string().optional(),
@@ -30,7 +27,7 @@ const projectSchema = z.object({
   vimeoId: z.string().optional(),
   poster: z.string().optional(),
 
-  // Sorting & visibility
+  // Layout & visibility
   size: tileSize,
   order: z.number().default(100),
   featured: z.boolean().default(false),
@@ -40,7 +37,6 @@ const projectSchema = z.object({
   description: z.string().optional(),
   objective: z.string().optional(),
 
-  // Credits
   credits: z.array(z.object({
     role: z.string(),
     name: z.string(),

@@ -9,7 +9,7 @@ tags:
 
 thumbnail: "/images/projects/placeholder-3.svg"
 
-size: "tall"
+size: "landscape"
 order: 1
 featured: false
 draft: false

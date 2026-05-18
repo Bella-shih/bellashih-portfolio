@@ -83,7 +83,7 @@ thumbnail: "/images/projects/my-project-thumb.jpg"
 hoverVideo: "/images/projects/my-project-hover.mp4"   # Optional — short loop for hover
 vimeoId: "123456789"            # Just the number from vimeo.com/123456789
 
-size: "medium"                   # Tile size — see options below
+size: "landscape"                # Tile size — "feature" (top hero), "landscape", or "square"
 order: 5                         # Lower = appears first in the grid
 featured: true                   # Set true to show on the homepage
 draft: false                     # Set true to hide the project temporarily
@@ -135,14 +135,12 @@ To embed another Vimeo video in the middle of the case study:
 ## 🎛️ Common tweaks
 
 ### Resize a tile in the grid
-Open the project's `.md` file. Change the `size:` line. Options:
-- `size: "small"` — 1 column × 1 row (compact)
-- `size: "medium"` — 1 column × 2 rows (default)
-- `size: "tall"` — 1 column × 3 rows (vertical hero)
-- `size: "wide"` — 2 columns × 2 rows (horizontal feature)
-- `size: "feature"` — 2 columns × 3 rows (the big hero tile)
+Open the project's `.md` file. Change the `size:` line. Three sizes available:
+- `size: "feature"` — full-width 16:9 (only used at top of Work / Selected pages — the hero)
+- `size: "landscape"` — 1 column wide × 16:9 (default — great for video work)
+- `size: "square"` — 1 column wide × 1:1 (good for stills, illustrations, social-aspect work)
 
-The grid auto-arranges itself for a clean mosaic. Pages collapse to single column on mobile.
+All tiles are landscape or square — no portrait shapes. The grid auto-arranges itself in 2 columns; tiles collapse to a single column on mobile.
 
 ### Hide a project (without deleting)
 Open the project's `.md` file. Change `draft: false` to `draft: true`. Commit. Project disappears.

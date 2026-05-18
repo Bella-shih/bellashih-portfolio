@@ -10,7 +10,7 @@ tags:
 thumbnail: "/images/projects/placeholder-2.svg"
 vimeoId: "148751763"  # placeholder; replace with real Vimeo ID
 
-size: "feature"
+size: "square"
 order: 1
 featured: true
 draft: false

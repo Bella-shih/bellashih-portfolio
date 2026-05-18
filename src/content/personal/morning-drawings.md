@@ -9,7 +9,7 @@ tags:
 
 thumbnail: "/images/projects/placeholder-7.svg"
 
-size: "medium"
+size: "square"
 order: 4
 featured: false
 draft: false

@@ -10,7 +10,7 @@ tags:
 thumbnail: "/images/projects/placeholder-6.svg"
 vimeoId: "76979871"
 
-size: "medium"
+size: "square"
 order: 4
 featured: false
 draft: false

@@ -8,7 +8,7 @@ tags:
 
 thumbnail: "/images/projects/placeholder-4.svg"
 
-size: "medium"
+size: "square"
 order: 3
 featured: false
 draft: false
