@@ -92,7 +92,7 @@ const mediums = [...new Set(projects.map(p => p.data.medium))].sort();
 
   .masonry {
     column-count: 2;
-    column-gap: var(--space-md);
+    column-gap: 2.5rem; /* 40px horizontal spacing between columns */
   }
 
   @media (max-width: 700px) {

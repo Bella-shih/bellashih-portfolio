@@ -88,13 +88,13 @@ const restProjects = projects.filter(p => p !== featureProject);
   .project-section { padding: var(--space-lg) var(--space-md) var(--space-xl); }
 
   .feature-row {
-    margin-bottom: var(--space-md);
+    margin-bottom: 2.5rem; /* 40px — matches tile spacing */
   }
 
   /* MASONRY — CSS columns layout, fills shortest column first (no gaps) */
   .masonry {
     column-count: 2;
-    column-gap: var(--space-md);
+    column-gap: 2.5rem; /* 40px horizontal spacing between columns */
   }
 
   @media (max-width: 700px) {

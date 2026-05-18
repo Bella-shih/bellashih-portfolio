@@ -232,11 +232,11 @@ const restProjects = featured.filter(p => p !== featureProject);
   }
   .section-link:hover { color: var(--color-pop); }
 
-  .feature-row { margin-bottom: var(--space-md); }
+  .feature-row { margin-bottom: 2.5rem; /* 40px — matches tile spacing */ }
 
   .masonry {
     column-count: 2;
-    column-gap: var(--space-md);
+    column-gap: 2.5rem; /* 40px horizontal spacing between columns */
   }
   @media (max-width: 700px) {
     .masonry { column-count: 1; }
