@@ -32,7 +32,7 @@ const mediums = [...new Set(projects.map(p => p.data.medium))].sort();
     {projects.length === 0 ? (
       <p class="empty-state">No projects yet. Add Markdown files to <code>src/content/playground/</code> to populate this page.</p>
     ) : (
-      <div class="project-grid">
+      <div class="masonry">
         {projects.map(project => (
           <ProjectTile
             href={`/projects/${project.id}`}
@@ -42,7 +42,7 @@ const mediums = [...new Set(projects.map(p => p.data.medium))].sort();
             tags={[project.data.medium, ...project.data.tags]}
             thumbnail={project.data.thumbnail}
             hoverVideo={project.data.hoverVideo}
-            size={project.data.size}
+            size={project.data.size === 'feature' ? 'landscape' : project.data.size}
           />
         ))}
       </div>
@@ -90,17 +90,14 @@ const mediums = [...new Set(projects.map(p => p.data.medium))].sort();
   }
   .project-section { padding: var(--space-lg) var(--space-md) var(--space-xl); }
 
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
-    align-items: start;
+  .masonry {
+    column-count: 2;
+    column-gap: var(--space-md);
   }
 
   @media (max-width: 700px) {
-    .project-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
+    .masonry {
+      column-count: 1;
     }
   }
 

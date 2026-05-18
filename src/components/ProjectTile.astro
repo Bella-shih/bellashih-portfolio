@@ -1,6 +1,9 @@
 ---
-// Project tile — landscape/square aspect-ratio system
-// Three sizes: feature (full-width 16:9), landscape (1col 16:9), square (1col 1:1)
+// Project tile — aspect-ratio system designed for masonry layout
+// Three sizes:
+//   feature   — full-width 24:9 (only used at top of Work / Selected, NOT inside masonry)
+//   landscape — 16:9 in a single column
+//   square    — 1:1 in a single column
 
 interface Props {
   href: string;
@@ -64,20 +67,14 @@ const {
 
 <style>
   .project-tile {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    display: block;
     text-decoration: none;
     color: inherit;
-  }
-
-  /* GRID PLACEMENT — feature spans 2 columns, others span 1 */
-  .tile-feature {
-    grid-column: span 2;
-  }
-  .tile-landscape,
-  .tile-square {
-    grid-column: span 1;
+    /* break-inside ensures masonry won't split a tile across columns */
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: var(--space-md);
   }
 
   /* MEDIA — aspect ratio locked per size */
@@ -87,10 +84,11 @@ const {
     overflow: hidden;
     border-radius: 12px;
     background: var(--color-accent);
+    margin-bottom: 0.75rem;
   }
 
   .tile-feature .tile-media {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 24 / 9;
   }
   .tile-landscape .tile-media {
     aspect-ratio: 16 / 9;
@@ -157,15 +155,6 @@ const {
     flex-wrap: wrap;
     gap: 0.3rem;
     margin-top: 0.2rem;
-  }
-
-  /* MOBILE — collapse all tiles to single column, landscape default */
-  @media (max-width: 700px) {
-    .tile-feature,
-    .tile-landscape,
-    .tile-square {
-      grid-column: span 1;
-    }
   }
 </style>
 

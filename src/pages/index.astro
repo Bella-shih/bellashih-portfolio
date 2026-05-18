@@ -10,6 +10,10 @@ const personalProjects = (await getCollection('personal', ({ data }) => !data.dr
   .sort((a, b) => a.data.order - b.data.order);
 
 const featured = [...workProjects, ...personalProjects].slice(0, 6);
+
+// Feature on top + rest in masonry
+const featureProject = featured.find(p => p.data.size === 'feature');
+const restProjects = featured.filter(p => p !== featureProject);
 ---
 
 <BaseLayout>
@@ -47,20 +51,37 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
         <a href="/work" class="section-link">All projects →</a>
       </header>
 
-      <div class="project-grid">
-        {featured.map(project => (
+      {featureProject && (
+        <div class="feature-row">
           <ProjectTile
-            href={`/projects/${project.id}`}
-            title={project.data.title}
-            client={project.data.client}
-            year={project.data.year?.toString()}
-            tags={project.data.tags}
-            thumbnail={project.data.thumbnail}
-            hoverVideo={project.data.hoverVideo}
-            size={project.data.size}
+            href={`/projects/${featureProject.id}`}
+            title={featureProject.data.title}
+            client={featureProject.data.client}
+            year={featureProject.data.year?.toString()}
+            tags={featureProject.data.tags}
+            thumbnail={featureProject.data.thumbnail}
+            hoverVideo={featureProject.data.hoverVideo}
+            size="feature"
           />
-        ))}
-      </div>
+        </div>
+      )}
+
+      {restProjects.length > 0 && (
+        <div class="masonry">
+          {restProjects.map(project => (
+            <ProjectTile
+              href={`/projects/${project.id}`}
+              title={project.data.title}
+              client={project.data.client}
+              year={project.data.year?.toString()}
+              tags={project.data.tags}
+              thumbnail={project.data.thumbnail}
+              hoverVideo={project.data.hoverVideo}
+              size={project.data.size === 'feature' ? 'landscape' : project.data.size}
+            />
+          ))}
+        </div>
+      )}
     </section>
   )}
 </BaseLayout>
@@ -75,13 +96,7 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     align-items: center;
     overflow: hidden;
   }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 900px;
-  }
-
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
   .hero-eyebrow {
     font-size: 0.95rem;
     font-weight: 500;
@@ -89,7 +104,6 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     margin-bottom: var(--space-sm);
     letter-spacing: 0.02em;
   }
-
   .hero-title {
     font-family: var(--font-display);
     font-weight: 700;
@@ -100,19 +114,8 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     margin-bottom: var(--space-md);
     font-variation-settings: 'opsz' 144, 'SOFT' 50;
   }
-
-  .hero-italic {
-    font-style: italic;
-    font-weight: 400;
-    color: var(--color-ink-soft);
-  }
-
-  .hero-mark {
-    position: relative;
-    display: inline-block;
-    color: var(--color-pop);
-  }
-
+  .hero-italic { font-style: italic; font-weight: 400; color: var(--color-ink-soft); }
+  .hero-mark { position: relative; display: inline-block; color: var(--color-pop); }
   .hero-mark::after {
     content: '';
     position: absolute;
@@ -124,7 +127,6 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     z-index: -1;
     transform: skewX(-6deg);
   }
-
   .hero-sub {
     font-size: clamp(1rem, 1.5vw, 1.2rem);
     color: var(--color-ink-soft);
@@ -132,13 +134,7 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     margin-bottom: var(--space-lg);
     line-height: 1.55;
   }
-
-  .hero-actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-
+  .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -151,43 +147,24 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     transition: all 0.2s ease;
     text-decoration: none;
   }
-
-  .btn-primary {
-    background: var(--color-ink);
-    color: var(--color-bg);
-  }
-
+  .btn-primary { background: var(--color-ink); color: var(--color-bg); }
   .btn-primary:hover {
     background: var(--color-pop);
     color: var(--color-bg);
     transform: translateY(-1px);
   }
-
   .btn-ghost {
     background: transparent;
     color: var(--color-ink);
     border: 1px solid var(--border-color-strong);
   }
-
   .btn-ghost:hover {
     background: var(--color-ink);
     color: var(--color-bg);
     border-color: var(--color-ink);
   }
-
-  /* DECORATIVE SHAPES */
-  .hero-decor {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .decor-shape {
-    position: absolute;
-    border-radius: 50%;
-  }
-
+  .hero-decor { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .decor-shape { position: absolute; border-radius: 50%; }
   .decor-circle {
     top: 10%;
     right: 8%;
@@ -197,7 +174,6 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     opacity: 0.5;
     animation: float-slow 8s ease-in-out infinite;
   }
-
   .decor-blob {
     bottom: 20%;
     right: 18%;
@@ -208,7 +184,6 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     border-radius: 60% 40% 50% 50%;
     animation: float-slow 10s ease-in-out infinite reverse;
   }
-
   .decor-dot {
     top: 40%;
     right: 30%;
@@ -217,28 +192,22 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     background: var(--color-ink);
     animation: float-bounce 3s ease-in-out infinite;
   }
-
   @keyframes float-slow {
     0%, 100% { transform: translate(0, 0) rotate(0deg); }
     33% { transform: translate(-20px, 15px) rotate(8deg); }
     66% { transform: translate(15px, -10px) rotate(-5deg); }
   }
-
   @keyframes float-bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-12px); }
   }
-
   @media (max-width: 900px) {
     .decor-circle { width: 80px; height: 80px; right: 5%; }
     .decor-blob { width: 50px; height: 50px; right: 12%; }
   }
 
   /* FEATURED SECTION */
-  .featured {
-    padding: var(--space-xl) var(--space-md);
-  }
-
+  .featured { padding: var(--space-xl) var(--space-md); }
   .section-header {
     display: flex;
     justify-content: space-between;
@@ -247,7 +216,6 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     flex-wrap: wrap;
     gap: 1rem;
   }
-
   .section-title {
     font-family: var(--font-display);
     font-weight: 700;
@@ -255,7 +223,6 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     letter-spacing: -0.025em;
     color: var(--color-ink);
   }
-
   .section-link {
     font-size: 0.95rem;
     font-weight: 500;
@@ -263,23 +230,15 @@ const featured = [...workProjects, ...personalProjects].slice(0, 6);
     text-decoration: none;
     transition: color 0.2s ease;
   }
+  .section-link:hover { color: var(--color-pop); }
 
-  .section-link:hover {
-    color: var(--color-pop);
+  .feature-row { margin-bottom: var(--space-md); }
+
+  .masonry {
+    column-count: 2;
+    column-gap: var(--space-md);
   }
-
-  /* 2-COLUMN PROJECT GRID */
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
-    align-items: start;
-  }
-
   @media (max-width: 700px) {
-    .project-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
+    .masonry { column-count: 1; }
   }
 </style>

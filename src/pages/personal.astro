@@ -20,7 +20,7 @@ const projects = (await getCollection('personal', ({ data }) => !data.draft))
     {projects.length === 0 ? (
       <p class="empty-state">No projects yet. Add Markdown files to <code>src/content/personal/</code> to populate this page.</p>
     ) : (
-      <div class="project-grid">
+      <div class="masonry">
         {projects.map(project => (
           <ProjectTile
             href={`/projects/${project.id}`}
@@ -30,7 +30,7 @@ const projects = (await getCollection('personal', ({ data }) => !data.draft))
             tags={project.data.tags}
             thumbnail={project.data.thumbnail}
             hoverVideo={project.data.hoverVideo}
-            size={project.data.size}
+            size={project.data.size === 'feature' ? 'landscape' : project.data.size}
           />
         ))}
       </div>
@@ -64,17 +64,14 @@ const projects = (await getCollection('personal', ({ data }) => !data.draft))
   }
   .project-section { padding: var(--space-lg) var(--space-md) var(--space-xl); }
 
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
-    align-items: start;
+  .masonry {
+    column-count: 2;
+    column-gap: var(--space-md);
   }
 
   @media (max-width: 700px) {
-    .project-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
+    .masonry {
+      column-count: 1;
     }
   }
 

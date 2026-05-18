@@ -5,6 +5,10 @@ import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('work', ({ data }) => !data.draft))
   .sort((a, b) => a.data.order - b.data.order);
+
+// Split: first project with size 'feature' goes on top, everything else flows into masonry
+const featureProject = projects.find(p => p.data.size === 'feature');
+const restProjects = projects.filter(p => p !== featureProject);
 ---
 
 <BaseLayout title="Work — Bella Shih" description="Commercial and client motion design work.">
@@ -20,20 +24,39 @@ const projects = (await getCollection('work', ({ data }) => !data.draft))
     {projects.length === 0 ? (
       <p class="empty-state">No projects yet. Add Markdown files to <code>src/content/work/</code> to populate this page.</p>
     ) : (
-      <div class="project-grid">
-        {projects.map(project => (
-          <ProjectTile
-            href={`/projects/${project.id}`}
-            title={project.data.title}
-            client={project.data.client}
-            year={project.data.year?.toString()}
-            tags={project.data.tags}
-            thumbnail={project.data.thumbnail}
-            hoverVideo={project.data.hoverVideo}
-            size={project.data.size}
-          />
-        ))}
-      </div>
+      <>
+        {featureProject && (
+          <div class="feature-row">
+            <ProjectTile
+              href={`/projects/${featureProject.id}`}
+              title={featureProject.data.title}
+              client={featureProject.data.client}
+              year={featureProject.data.year?.toString()}
+              tags={featureProject.data.tags}
+              thumbnail={featureProject.data.thumbnail}
+              hoverVideo={featureProject.data.hoverVideo}
+              size="feature"
+            />
+          </div>
+        )}
+
+        {restProjects.length > 0 && (
+          <div class="masonry">
+            {restProjects.map(project => (
+              <ProjectTile
+                href={`/projects/${project.id}`}
+                title={project.data.title}
+                client={project.data.client}
+                year={project.data.year?.toString()}
+                tags={project.data.tags}
+                thumbnail={project.data.thumbnail}
+                hoverVideo={project.data.hoverVideo}
+                size={project.data.size === 'feature' ? 'landscape' : project.data.size}
+              />
+            ))}
+          </div>
+        )}
+      </>
     )}
   </section>
 </BaseLayout>
@@ -64,18 +87,19 @@ const projects = (await getCollection('work', ({ data }) => !data.draft))
   }
   .project-section { padding: var(--space-lg) var(--space-md) var(--space-xl); }
 
-  /* 2-COLUMN GRID — each tile decides its own aspect ratio */
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
-    align-items: start;
+  .feature-row {
+    margin-bottom: var(--space-md);
+  }
+
+  /* MASONRY — CSS columns layout, fills shortest column first (no gaps) */
+  .masonry {
+    column-count: 2;
+    column-gap: var(--space-md);
   }
 
   @media (max-width: 700px) {
-    .project-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
+    .masonry {
+      column-count: 1;
     }
   }
 
