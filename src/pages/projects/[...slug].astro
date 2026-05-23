@@ -142,13 +142,15 @@ const { data } = project;
 
   .proj-title {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     font-size: clamp(2.5rem, 7vw, 5rem);
     line-height: 1.02;
     letter-spacing: -0.035em;
     color: var(--color-ink);
     margin-bottom: var(--space-md);
+    font-variation-settings: 'opsz' 72;
   }
+
 
   .proj-description {
     font-size: clamp(1.1rem, 1.6vw, 1.4rem);
@@ -229,7 +231,9 @@ const { data } = project;
     text-transform: uppercase;
     color: var(--color-pop);
     margin-bottom: var(--space-md);
+    font-variation-settings: 'opsz' 72;
   }
+
 
   .proj-objective {
     font-family: var(--font-display);
@@ -239,17 +243,21 @@ const { data } = project;
     color: var(--color-ink);
     max-width: none;
     letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 72;
   }
+
 
   /* Markdown content area — applies to anything written in the .md project body */
   .proj-content :global(h2) {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 2rem;
     letter-spacing: -0.02em;
     color: var(--color-ink);
     margin: var(--space-xl) 0 var(--space-md);
+    font-variation-settings: 'opsz' 72;
   }
+
 
   .proj-content :global(h3) {
     font-family: var(--font-display);
@@ -259,7 +267,9 @@ const { data } = project;
     text-transform: uppercase;
     color: var(--color-pop);
     margin: var(--space-lg) 0 var(--space-sm);
+    font-variation-settings: 'opsz' 72;
   }
+
 
   .proj-content :global(p) {
     font-size: 1.1rem;

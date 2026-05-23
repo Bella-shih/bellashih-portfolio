@@ -8,7 +8,7 @@
    ============================================ */
 
 /* ---------- FONTS ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 /* ---------- COLOR PALETTE: CITRUS PRESS ---------- */
 :root {
@@ -31,7 +31,7 @@
   --border-color-strong: rgba(24, 64, 39, 0.25);
 
   /* Typography */
-  --font-display: 'Crimson Pro', Georgia, serif;
+  --font-display: 'Newsreader', Georgia, serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Spacing scale — keep consistent rhythm across the site */
@@ -79,10 +79,11 @@ body {
 /* ---------- TYPOGRAPHY ---------- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.025em;
   color: var(--color-ink);
+  font-variation-settings: 'opsz' 72;
 }
 
 h1 { font-size: clamp(2.5rem, 6vw, 5rem); }

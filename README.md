@@ -211,5 +211,5 @@ The site auto-deploys via Cloudflare Pages whenever you push to GitHub's `main` 
 | Text | Deep Forest `#184027` |
 | Primary accent | Olive `#B8BC59` |
 | Secondary accent | Tangerine `#FF6B2B` |
-| Display font | Crimson Pro |
+| Display font | Newsreader |
 | Body font | Plus Jakarta Sans |
